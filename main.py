@@ -11,6 +11,7 @@ os.chdir(cur_dir)
 
 
 class MyWidget(QMainWindow):
+    result = 0
     def __init__(self):
         super().__init__()
         uic.loadUi("src/MainApplication.ui", self)
@@ -22,16 +23,19 @@ class MyWidget(QMainWindow):
 
     def solveLinearEquation(self):
         self.result = self.coefK / self.coefZ
-        solve = self.MainWindow.printSolve()
+        solve = MainWindow(self, self.result)
+        solve.show()
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__(MyWidget)
+    def __init__(self, solve):
+        super().__init__()
         uic.loadUi("src/MainWindow.ui", self)
+        self.solve = solve
+        self.printSolve(self.solve)
 
     def printSolve(self):
-        return self.printSolve.setText(self.result)
+        self.printSolve.setText(self.solve)
 
 
 def except_hook(cls, exception, traceback):
